@@ -23,7 +23,6 @@ import android.app.ActivityManager;
 import android.app.settings.SettingsEnums;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -38,23 +37,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.window.embedding.ActivityEmbeddingController;
 
 import com.android.settings.R;
-import com.android.settings.Utils;
 import com.android.settings.activityembedding.ActivityEmbeddingRulesController;
 import com.android.settings.activityembedding.ActivityEmbeddingUtils;
+import com.android.settings.core.OnActivityResultListener;
 import com.android.settings.core.SubSettingLauncher;
 import com.android.settings.dashboard.DashboardFragment;
+import com.android.settings.network.InternetPreferenceController;
+import com.android.settings.network.TetherPreferenceController;
 import com.android.settings.overlay.FeatureFactory;
 import com.android.settings.search.BaseSearchIndexProvider;
 import com.android.settings.support.SupportPreferenceController;
 import com.android.settings.widget.HomepagePreference;
 import com.android.settings.widget.HomepagePreferenceLayoutHelper.HomepagePreferenceLayout;
+import com.android.settingslib.core.AbstractPreferenceController;
 import com.android.settingslib.core.instrumentation.Instrumentable;
+import com.android.settingslib.core.instrumentation.MetricsFeatureProvider;
+import com.android.settingslib.core.lifecycle.Lifecycle;
 import com.android.settingslib.drawer.Tile;
 import com.android.settingslib.search.SearchIndexable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SearchIndexable(forTarget = MOBILE)
 public class TopLevelSettings extends DashboardFragment implements SplitLayoutListener,
-        PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
+        PreferenceFragmentCompat.OnPreferenceStartFragmentCallback, OnActivityResultListener {
 
     private static final String TAG = "TopLevelSettings";
     private static final String SAVED_HIGHLIGHT_MIXIN = "highlight_mixin";
@@ -76,7 +83,7 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
 
     @Override
     protected int getPreferenceScreenResId() {
-        return R.xml.top_level_settings;
+        return R.xml.arrow_dashboard;
     }
 
     @Override
@@ -197,13 +204,61 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         super.onCreatePreferences(savedInstanceState, rootKey);
-        int tintColor = Utils.getHomepageIconColor(getContext());
-        iteratePreferences(preference -> {
-            Drawable icon = preference.getIcon();
-            if (icon != null) {
-                icon.setTint(tintColor);
+        initPreferenceCard();
+    }
+
+    private void initPreferenceCard() {
+        final PreferenceScreen screen = getPreferenceScreen();
+        if (screen == null) {
+            return;
+        }
+
+        for (int i = 0; i < screen.getPreferenceCount(); i++) {
+            final Preference pref = screen.getPreference(i);
+            final String key = pref.getKey();
+            if (key == null) {
+                continue;
             }
-        });
+
+            if ("airplane_mode".equals(key)) {
+                pref.setLayoutResource(R.layout.arrow_homepage_prefswitch_top);
+            } else if (key.contains("wellbeing")) {
+                pref.setLayoutResource(R.layout.arrow_dashboard_pref_wellbeing);
+            } else if (isCardTop(key)) {
+                pref.setLayoutResource(R.layout.arrow_card_homepage_oplus_top);
+            } else if (isCardBottom(key)) {
+                pref.setLayoutResource(R.layout.arrow_card_homepage_oplus_bottom);
+            } else {
+                pref.setLayoutResource(R.layout.arrow_card_homepage_oplus_middle_summary);
+            }
+        }
+    }
+
+    /** First preference of a grouped card. */
+    private static boolean isCardTop(String key) {
+        switch (key) {
+            case "top_level_display":
+            case "top_level_apps":
+            case "top_level_privacy":
+            case "top_level_accessibility":
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /** Last preference of a grouped card. */
+    private static boolean isCardBottom(String key) {
+        switch (key) {
+            case "top_level_sharpener":
+            case "top_level_sound":
+            case "top_level_storage":
+            case "top_level_security":
+            case "top_level_about_device":
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override
@@ -364,8 +419,27 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
         void doForEach(Preference preference);
     }
 
+    @Override
+    protected List<AbstractPreferenceController> createPreferenceControllers(Context context) {
+        return buildPreferenceControllers(context, getSettingsLifecycle(),
+                mMetricsFeatureProvider, this /* fragment */);
+    }
+
+    private static List<AbstractPreferenceController> buildPreferenceControllers(Context context,
+            Lifecycle lifecycle, MetricsFeatureProvider metricsFeatureProvider,
+            Fragment fragment) {
+        final List<AbstractPreferenceController> controllers = new ArrayList<>();
+        controllers.add(new TetherPreferenceController(context, lifecycle));
+        final InternetPreferenceController internetPreferenceController =
+                new InternetPreferenceController(context, lifecycle);
+        if (internetPreferenceController != null) {
+            controllers.add(internetPreferenceController);
+        }
+        return controllers;
+    }
+
     public static final BaseSearchIndexProvider SEARCH_INDEX_DATA_PROVIDER =
-            new BaseSearchIndexProvider(R.xml.top_level_settings) {
+            new BaseSearchIndexProvider(R.xml.arrow_dashboard) {
 
                 @Override
                 protected boolean isPageSearchEnabled(Context context) {

@@ -222,4 +222,10 @@
 
     <!-- Color for card preference -->
     <color name="preference_card_background">@android:color/system_neutral1_10</color>
+
+    <!-- Homepage dashboard -->
+    <color name="arrow_pref_ripple">#1f000000</color>
+    <color name="arrow_pref_card_color">@android:color/system_neutral1_10</color>
+
+    <color name="card_surface_color">@android:color/system_neutral1_100</color>
 </resources>
