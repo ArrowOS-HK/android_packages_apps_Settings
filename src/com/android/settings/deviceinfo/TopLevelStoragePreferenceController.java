@@ -29,7 +29,6 @@ import com.android.settingslib.deviceinfo.PrivateStorageInfo;
 import com.android.settingslib.deviceinfo.StorageManagerVolumeProvider;
 import com.android.settingslib.utils.ThreadUtils;
 
-import java.text.NumberFormat;
 import java.util.concurrent.Future;
 
 public class TopLevelStoragePreferenceController extends BasePreferenceController {
@@ -60,14 +59,11 @@ public class TopLevelStoragePreferenceController extends BasePreferenceControlle
     @VisibleForTesting
     protected Future refreshSummaryThread(Preference preference) {
         return ThreadUtils.postOnBackgroundThread(() -> {
-            final NumberFormat percentageFormat = NumberFormat.getPercentInstance();
             final PrivateStorageInfo info = PrivateStorageInfo.getPrivateStorageInfo(
                     getStorageManagerVolumeProvider());
-            final double privateUsedBytes = info.totalBytes - info.freeBytes;
 
             ThreadUtils.postOnMainThread(() -> {
-                preference.setSummary(mContext.getString(R.string.storage_summary,
-                        percentageFormat.format(privateUsedBytes / info.totalBytes),
+                preference.setSummary(mContext.getString(R.string.storage_summary_free,
                         Formatter.formatFileSize(mContext, info.freeBytes)));
             });
         });

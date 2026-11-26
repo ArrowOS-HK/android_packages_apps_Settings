@@ -19,6 +19,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:settings="http://schemas.android.com/apk/res-auto">
 
+    <com.android.settingslib.widget.LayoutPreference
+        android:key="top_level_profile"
+        android:layout="@layout/arrow_dashboard_account"
+        android:order="-200"
+        android:selectable="false" />
+
     <SwitchPreference
         android:icon="@drawable/settings_airplane_ic"
         android:title="@string/airplane_mode"
@@ -27,33 +33,28 @@
         settings:controller="com.android.settings.network.AirplaneModePreferenceController" />
 
     <com.android.settings.widget.HomepagePreference
-        android:fragment="com.android.settings.network.NetworkDashboardFragment"
-        android:icon="@drawable/settings_connectivity_ic"
+        android:icon="@drawable/ic_wifi_signal_4"
         android:key="internet_settings"
         android:order="-189"
-        android:title="@string/arrow_dashboard_network"
+        android:title="@string/wifi_settings"
         android:summaryOn="@string/summary_placeholder"
         settings:keywords="@string/keywords_internet"
         settings:highlightableMenuKey="@string/menu_key_network" />
 
     <com.android.settings.widget.HomepagePreference
-        android:fragment="com.android.settings.TetherSettings"
-        android:icon="@drawable/settings_hotspot_ic"
-        android:key="tether_settings"
+        android:icon="@drawable/ic_settings_bluetooth"
+        android:key="top_level_bluetooth"
         android:order="-188"
-        android:title="@string/arrow_dashboard_portable_hotspot"
+        android:title="@string/bluetooth_settings_title"
         android:summaryOn="@string/summary_placeholder"
-        settings:keywords="@string/keywords_hotspot_tethering" />
+        settings:highlightableMenuKey="@string/menu_key_connected_devices" />
 
     <com.android.settings.widget.HomepagePreference
-        android:fragment="com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment"
-        android:icon="@drawable/ic_devices_other"
-        android:key="top_level_connected_devices"
+        android:icon="@drawable/ic_network_cell"
+        android:key="top_level_mobile_network"
         android:order="-187"
-        android:title="@string/connected_devices_dashboard_title"
-        android:summary="@string/connected_devices_dashboard_default_summary"
-        settings:highlightableMenuKey="@string/menu_key_connected_devices"
-        settings:controller="com.android.settings.connecteddevice.TopLevelConnectedDevicesPreferenceController" />
+        android:title="@string/network_settings_title"
+        settings:keywords="@string/keywords_internet" />
 
     <com.android.settings.widget.HomepagePreference
         android:fragment="com.android.settings.communal.CommunalDashboardFragment"
@@ -66,11 +67,18 @@
         settings:controller="com.android.settings.communal.CommunalPreferenceController" />
 
     <com.android.settings.widget.HomepagePreference
+        android:icon="@drawable/ic_devices_other"
+        android:key="connection_sharing"
+        android:order="-185"
+        android:title="@string/arrow_dashboard_connection_sharing"
+        settings:keywords="@string/keywords_hotspot_tethering" />
+
+    <com.android.settings.widget.HomepagePreference
         android:key="top_level_sharpener"
         android:title="@string/sharpener_title"
         android:summary="@string/sharpener_summary"
         android:icon="@drawable/ic_settings_arrow"
-        android:order="-185"
+        android:order="-184"
         android:fragment="com.arrow.support.Sharpener" />
 
     <com.android.settings.widget.HomepagePreference

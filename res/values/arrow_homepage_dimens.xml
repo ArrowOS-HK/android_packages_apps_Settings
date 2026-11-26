@@ -20,7 +20,7 @@
      <dimen name="arrow_toolbar_expanded_title_margin_end">75dp</dimen>
 
      <!-- Preference Card -->
-     <dimen name="arrow_pref_card_radius">28dp</dimen>
+     <dimen name="arrow_pref_card_radius">20dp</dimen>
      <dimen name="arrow_pref_card_horizontal_padding">16dp</dimen>
      <dimen name="arrow_pref_card_horizontal_padding-negative">-16dp</dimen>
 </resources>

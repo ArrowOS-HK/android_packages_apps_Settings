@@ -19,15 +19,27 @@ package com.android.settings.homepage;
 import static com.android.settings.search.actionbar.SearchMenuController.NEED_SEARCH_ICON_IN_ACTION_BAR;
 import static com.android.settingslib.search.SearchIndexable.MOBILE;
 
+import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.settings.SettingsEnums;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.UserInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Process;
+import android.os.UserManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
@@ -36,14 +48,20 @@ import androidx.preference.PreferenceScreen;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.window.embedding.ActivityEmbeddingController;
 
+import com.android.internal.util.UserIcons;
 import com.android.settings.R;
+import com.android.settings.Utils;
 import com.android.settings.activityembedding.ActivityEmbeddingRulesController;
 import com.android.settings.activityembedding.ActivityEmbeddingUtils;
+import com.android.settings.bluetooth.TopLevelBluetoothPreferenceController;
+import com.android.settings.connecteddevice.BluetoothDashboardFragment;
+import com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment;
 import com.android.settings.core.OnActivityResultListener;
 import com.android.settings.core.SubSettingLauncher;
 import com.android.settings.dashboard.DashboardFragment;
-import com.android.settings.network.InternetPreferenceController;
-import com.android.settings.network.TetherPreferenceController;
+import com.android.settings.network.HomepageWifiPreferenceController;
+import com.android.settings.network.NetworkDashboardFragment;
+import com.android.settings.network.NetworkProviderSettings;
 import com.android.settings.overlay.FeatureFactory;
 import com.android.settings.search.BaseSearchIndexProvider;
 import com.android.settings.support.SupportPreferenceController;
@@ -55,6 +73,9 @@ import com.android.settingslib.core.instrumentation.MetricsFeatureProvider;
 import com.android.settingslib.core.lifecycle.Lifecycle;
 import com.android.settingslib.drawer.Tile;
 import com.android.settingslib.search.SearchIndexable;
+import com.android.settingslib.users.EditUserPhotoController;
+import com.android.settingslib.utils.ThreadUtils;
+import com.android.settingslib.widget.LayoutPreference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +87,9 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
     private static final String TAG = "TopLevelSettings";
     private static final String SAVED_HIGHLIGHT_MIXIN = "highlight_mixin";
     private static final String PREF_KEY_SUPPORT = "top_level_support";
+    private static final String PREF_KEY_PROFILE = "top_level_profile";
+    private static final String PROFILE_PREFS = "arrow_homepage";
+    private static final String PROFILE_SUMMARY_KEY = "profile_summary";
 
     private boolean mIsEmbeddingActivityEnabled;
     private TopLevelHighlightMixin mHighlightMixin;
@@ -73,6 +97,10 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
     private boolean mScrollNeeded = true;
     private boolean mFirstStarted = true;
     private ActivityEmbeddingController mActivityEmbeddingController;
+    private EditUserPhotoController mEditUserPhotoController;
+    private ImageView mProfileAvatar;
+    private TextView mProfileTitle;
+    private TextView mProfileSummary;
 
     public TopLevelSettings() {
         final Bundle args = new Bundle();
@@ -125,7 +153,55 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
                 true /* clearTop */);
 
         setHighlightPreferenceKey(preference.getKey());
+        if (launchHomepageSettings(preference)) {
+            return true;
+        }
         return super.onPreferenceTreeClick(preference);
+    }
+
+    /**
+     * Launches the settings page behind one of the connectivity entries on the homepage.
+     *
+     * <p>These entries are started explicitly (instead of using the fragment declared in XML) so
+     * that every page gets the proper title and destination: Wi-Fi opens the Wi-Fi network list,
+     * Bluetooth opens the Bluetooth screen, Mobile network opens Network &amp; internet, and
+     * Connection &amp; sharing opens the Connected devices screen.
+     */
+    private boolean launchHomepageSettings(Preference preference) {
+        final String key = preference.getKey();
+        if (key == null) {
+            return false;
+        }
+        final String destination;
+        final int titleRes;
+        switch (key) {
+            case HomepageWifiPreferenceController.KEY:
+                destination = NetworkProviderSettings.class.getName();
+                titleRes = R.string.wifi_settings;
+                break;
+            case TopLevelBluetoothPreferenceController.KEY:
+                destination = BluetoothDashboardFragment.class.getName();
+                titleRes = R.string.bluetooth_settings_title;
+                break;
+            case "top_level_mobile_network":
+                destination = NetworkDashboardFragment.class.getName();
+                titleRes = R.string.network_dashboard_title;
+                break;
+            case "connection_sharing":
+                destination = ConnectedDeviceDashboardFragment.class.getName();
+                titleRes = R.string.connected_devices_dashboard_title;
+                break;
+            default:
+                return false;
+        }
+
+        new SubSettingLauncher(getActivity())
+                .setDestination(destination)
+                .setTitleRes(titleRes)
+                .setSourceMetricsCategory(getMetricsCategory())
+                .setIsSecondLayerPage(true)
+                .launch();
+        return true;
     }
 
     @Override
@@ -185,6 +261,7 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
                     /* scrollNeeded= */ false);
         }
         super.onStart();
+        initProfileCard();
     }
 
     private boolean isOnlyOneActivityInTask() {
@@ -224,6 +301,11 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
                 continue;
             }
 
+            if (PREF_KEY_PROFILE.equals(key)) {
+                // The profile card provides its own layout.
+                continue;
+            }
+
             if ("airplane_mode".equals(key)) {
                 pref.setLayoutResource(R.layout.arrow_homepage_prefswitch_top);
             } else if (key.contains("wellbeing")) {
@@ -231,7 +313,9 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
             } else if (isCardTop(key)) {
                 pref.setLayoutResource(R.layout.arrow_card_homepage_oplus_top);
             } else if (isCardBottom(key) || pref == lastPreference) {
-                pref.setLayoutResource(R.layout.arrow_card_homepage_oplus_bottom);
+                pref.setLayoutResource(isCardWithSummary(key)
+                        ? R.layout.arrow_card_homepage_oplus_bottom_summary
+                        : R.layout.arrow_card_homepage_oplus_bottom);
             } else if (isCardWithSummary(key)) {
                 pref.setLayoutResource(R.layout.arrow_card_homepage_oplus_middle_summary);
             } else {
@@ -243,7 +327,7 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
     /** First preference of a grouped card. */
     private static boolean isCardTop(String key) {
         switch (key) {
-            case "top_level_display":
+            case "top_level_sharpener":
             case "top_level_apps":
             case "top_level_privacy":
             case "top_level_accessibility":
@@ -256,7 +340,7 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
     /** Last preference of a grouped card. The final card is resolved dynamically. */
     private static boolean isCardBottom(String key) {
         switch (key) {
-            case "top_level_sharpener":
+            case "connection_sharing":
             case "top_level_sound":
             case "top_level_storage":
             case "top_level_security":
@@ -281,10 +365,146 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
     private static boolean isCardWithSummary(String key) {
         switch (key) {
             case "internet_settings":
-            case "tether_settings":
+            case "top_level_bluetooth":
+            case "top_level_battery":
+            case "top_level_storage":
                 return true;
             default:
                 return false;
+        }
+    }
+
+    /**
+     * Wires up the profile card shown above the connectivity entries. Tapping the card opens a
+     * single dialog where the user photo, name and custom status can all be edited at once.
+     */
+    private void initProfileCard() {
+        final PreferenceScreen screen = getPreferenceScreen();
+        if (screen == null) {
+            return;
+        }
+        final Preference profilePreference = screen.findPreference(PREF_KEY_PROFILE);
+        if (!(profilePreference instanceof LayoutPreference)) {
+            return;
+        }
+        final LayoutPreference profileCard = (LayoutPreference) profilePreference;
+
+        final View card = profileCard.findViewById(R.id.arrow_profile_card);
+        mProfileAvatar = profileCard.findViewById(R.id.arrow_profile_avatar);
+        mProfileTitle = profileCard.findViewById(R.id.arrow_profile_title);
+        mProfileSummary = profileCard.findViewById(R.id.arrow_profile_summary);
+        if (card == null || mProfileAvatar == null || mProfileTitle == null
+                || mProfileSummary == null) {
+            return;
+        }
+
+        updateProfileCard();
+
+        card.setOnClickListener(v -> showProfileEditDialog());
+        mProfileAvatar.setOnClickListener(v -> showProfileEditDialog());
+        mProfileAvatar.setContentDescription(
+                getString(R.string.arrow_dashboard_profile_edit_title));
+        mProfileTitle.setOnClickListener(v -> showProfileEditDialog());
+        mProfileSummary.setOnClickListener(v -> showProfileEditDialog());
+    }
+
+    private void updateProfileCard() {
+        final Context context = getContext();
+        if (context == null || mProfileTitle == null) {
+            return;
+        }
+
+        final UserManager userManager = context.getSystemService(UserManager.class);
+        final UserInfo userInfo = Utils.getExistingUser(userManager, Process.myUserHandle());
+        if (userInfo == null) {
+            return;
+        }
+
+        mProfileTitle.setText(getString(R.string.arrow_dashboard_profile_greeting, userInfo.name));
+        mProfileSummary.setText(getProfileSummary());
+        mProfileAvatar.setImageDrawable(
+                com.android.settingslib.Utils.getUserIcon(context, userManager, userInfo));
+    }
+
+    private String getProfileSummary() {
+        final Context context = getContext();
+        if (context == null) {
+            return "";
+        }
+        final String summary = context.getSharedPreferences(PROFILE_PREFS, Context.MODE_PRIVATE)
+                .getString(PROFILE_SUMMARY_KEY, null);
+        return TextUtils.isEmpty(summary)
+                ? getString(R.string.arrow_dashboard_profile_summary_default)
+                : summary;
+    }
+
+    private void showProfileEditDialog() {
+        final Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+
+        final UserManager userManager = activity.getSystemService(UserManager.class);
+        final UserInfo userInfo = Utils.getExistingUser(userManager, Process.myUserHandle());
+        if (userInfo == null) {
+            return;
+        }
+
+        final Drawable oldIcon = com.android.settingslib.Utils.getUserIcon(
+                activity, userManager, userInfo);
+        final View content = LayoutInflater.from(activity)
+                .inflate(R.layout.arrow_profile_edit_dialog, null);
+        final ImageView avatar = content.findViewById(R.id.arrow_profile_dialog_avatar);
+        final EditText nameInput = content.findViewById(R.id.arrow_profile_dialog_name);
+        final EditText statusInput = content.findViewById(R.id.arrow_profile_dialog_status);
+
+        avatar.setImageDrawable(oldIcon);
+        nameInput.setText(userInfo.name);
+        nameInput.setSelection(nameInput.getText().length());
+        statusInput.setText(getProfileSummary());
+        statusInput.setSelection(statusInput.getText().length());
+
+        mEditUserPhotoController = new EditUserPhotoController(activity,
+                this::startActivityForResult, avatar, null /* savedBitmap */, oldIcon,
+                Utils.FILE_PROVIDER_AUTHORITY);
+
+        new AlertDialog.Builder(activity)
+                .setTitle(R.string.arrow_dashboard_profile_edit_title)
+                .setView(content)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    final Drawable newIcon = mEditUserPhotoController.getNewUserPhotoDrawable();
+                    if (newIcon != null && newIcon != oldIcon) {
+                        // Show the picked photo right away; persisting happens in the background.
+                        mProfileAvatar.setImageDrawable(newIcon);
+                        final Bitmap bitmap = UserIcons.convertToBitmapAtUserIconSize(
+                                activity.getResources(), newIcon);
+                        ThreadUtils.postOnBackgroundThread(
+                                () -> userManager.setUserIcon(userInfo.id, bitmap));
+                    }
+
+                    final String newName = nameInput.getText().toString().trim();
+                    if (!TextUtils.isEmpty(newName) && !newName.equals(userInfo.name)) {
+                        userManager.setUserName(userInfo.id, newName);
+                        mProfileTitle.setText(
+                                getString(R.string.arrow_dashboard_profile_greeting, newName));
+                    }
+
+                    final String newStatus = statusInput.getText().toString().trim();
+                    activity.getSharedPreferences(PROFILE_PREFS, Context.MODE_PRIVATE)
+                            .edit()
+                            .putString(PROFILE_SUMMARY_KEY, newStatus)
+                            .apply();
+                    mProfileSummary.setText(getProfileSummary());
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mEditUserPhotoController != null) {
+            mEditUserPhotoController.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -456,12 +676,8 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
             Lifecycle lifecycle, MetricsFeatureProvider metricsFeatureProvider,
             Fragment fragment) {
         final List<AbstractPreferenceController> controllers = new ArrayList<>();
-        controllers.add(new TetherPreferenceController(context, lifecycle));
-        final InternetPreferenceController internetPreferenceController =
-                new InternetPreferenceController(context, lifecycle);
-        if (internetPreferenceController != null) {
-            controllers.add(internetPreferenceController);
-        }
+        controllers.add(new HomepageWifiPreferenceController(context, lifecycle));
+        controllers.add(new TopLevelBluetoothPreferenceController(context, lifecycle));
         return controllers;
     }
 

@@ -172,4 +172,11 @@
 <string name="back_height_title">Tinggi gerakan kembali</string>
 <string name="back_height_summary">Tinggi layar yang valid untuk gerakan kembali</string>
 
+<!-- Homepage profile card (Bahasa Indonesia) -->
+<string name="arrow_dashboard_profile_greeting">Hai!, <xliff:g id="name" example="Alex">%1$s</xliff:g></string>
+<string name="arrow_dashboard_profile_edit_title">Edit profil</string>
+<string name="arrow_dashboard_profile_name_hint">Nama</string>
+<string name="arrow_dashboard_profile_status_hint">Status</string>
+<string name="storage_summary_free"><xliff:g id="free" example="42 GB">%1$s</xliff:g> tersisa</string>
+
 </resources>

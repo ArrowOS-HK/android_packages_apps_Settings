@@ -6,7 +6,7 @@
     android:clipToPadding="false"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:minHeight="60.0dip"
+    android:minHeight="52.0dip"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
@@ -16,14 +16,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
         <androidx.preference.internal.PreferenceImageView
+            android:scaleType="centerInside"
             android:layout_gravity="center"
-            android:background="@drawable/adaptive_icon_shape"
-            android:padding="6.0dip"
             android:id="@android:id/icon"
-            android:layout_width="36.0dip"
-            android:layout_height="36.0dip"
-            android:tint="?android:colorAccent"
-            android:backgroundTint="@color/card_surface_color"
+            android:layout_width="24.0dip"
+            android:layout_height="24.0dip"
             android:layout_marginEnd="16.0dip"
             app:maxHeight="48.0dip"
             app:maxWidth="48.0dip" />
@@ -34,8 +31,8 @@
             android:id="@android:id/title"
             android:layout_width="0.0dip"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18.0dip"
-            android:layout_marginBottom="18.0dip"
+            android:layout_marginTop="10.0dip"
+            android:layout_marginBottom="10.0dip"
             android:singleLine="true"
             android:layout_weight="1.0"
             android:textAlignment="viewStart" />

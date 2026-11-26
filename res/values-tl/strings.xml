@@ -259,7 +259,7 @@
     <string name="settings_label" msgid="943294133671632976">"Mga Setting"</string>
     <string name="settings_label_launcher" msgid="820982375501978609">"Mga Setting"</string>
     <string name="settings_shortcut" msgid="8548239727871847171">"Shortcut ng Mga Setting"</string>
-    <string name="airplane_mode" msgid="3196085857882526817">"Airplane mode"</string>
+    <string name="airplane_mode" msgid="3196085857882526817">"Aeroplane mode"</string>
     <string name="wireless_networks_settings_title" msgid="8557542379234105369">"Wireless at mga network"</string>
     <string name="radio_controls_summary" msgid="9028430178697624501">"Pamahalaan ang Wi-Fi, Bluetooth, airplane mode, mga mobile network at mga VPN"</string>
     <string name="cellular_data_summary" msgid="6551434804367912367">"Payagan ang paggamit ng data sa mobile network"</string>

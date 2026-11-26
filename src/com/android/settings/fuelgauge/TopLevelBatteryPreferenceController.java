@@ -92,7 +92,14 @@ public class TopLevelBatteryPreferenceController extends BasePreferenceControlle
         if (!mIsBatteryPresent) {
             return mContext.getText(R.string.battery_missing_message);
         }
-        return getDashboardLabel(mContext, mBatteryInfo, batteryStatusUpdate);
+        if (mBatteryInfo == null) {
+            return null;
+        }
+        if (batteryStatusUpdate) {
+            setSummaryAsync(mBatteryInfo);
+        }
+        // The homepage only shows the remaining battery percentage.
+        return mBatteryInfo.batteryPercentString;
     }
 
     protected CharSequence getDashboardLabel(Context context, BatteryInfo info,
@@ -105,7 +112,7 @@ public class TopLevelBatteryPreferenceController extends BasePreferenceControlle
             setSummaryAsync(info);
         }
 
-        return (mBatteryStatusLabel == null) ? generateLabel(info) : mBatteryStatusLabel;
+        return generateLabel(info);
     }
 
     private void setSummaryAsync(BatteryInfo info) {
@@ -117,21 +124,14 @@ public class TopLevelBatteryPreferenceController extends BasePreferenceControlle
                     mBatteryStatusLabel = null; // will generateLabel()
                 }
                 mPreference.setSummary(
-                        (mBatteryStatusLabel == null) ? generateLabel(info) : mBatteryStatusLabel);
+                        generateLabel(info));
             });
         });
     }
 
     private CharSequence generateLabel(BatteryInfo info) {
-        if (!info.discharging && info.chargeLabel != null) {
-            return info.chargeLabel;
-        } else if (info.remainingLabel == null) {
-            return info.batteryPercentString;
-        } else {
-            return mContext.getString(R.string.power_remaining_settings_home_page,
-                    info.batteryPercentString,
-                    info.remainingLabel);
-        }
+        // The homepage only shows the remaining battery percentage.
+        return info.batteryPercentString;
     }
 
     /**

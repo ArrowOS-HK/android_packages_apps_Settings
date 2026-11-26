@@ -259,7 +259,7 @@
     <string name="settings_label" msgid="943294133671632976">"Settings"</string>
     <string name="settings_label_launcher" msgid="820982375501978609">"Settings"</string>
     <string name="settings_shortcut" msgid="8548239727871847171">"Settings shortcut"</string>
-    <string name="airplane_mode" msgid="3196085857882526817">"Airplane mode"</string>
+    <string name="airplane_mode" msgid="3196085857882526817">"Aeroplane mode"</string>
     <string name="wireless_networks_settings_title" msgid="8557542379234105369">"Wireless &amp; networks"</string>
     <string name="radio_controls_summary" msgid="9028430178697624501">"Manage Wi‑Fi, Bluetooth, Airplane mode, mobile networks and VPNs"</string>
     <string name="cellular_data_summary" msgid="6551434804367912367">"Allow data usage over mobile network"</string>

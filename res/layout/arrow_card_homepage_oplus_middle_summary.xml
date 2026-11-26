@@ -17,9 +17,8 @@
         layout="@layout/arrow_homepage_oplus_card_summary" />
     <View
         android:layout_gravity="bottom"
-        android:background="?android:textColorSecondary"
+        android:background="@color/arrow_homepage_divider"
         android:layout_width="fill_parent"
         android:layout_height="0.8000001dip"
-        android:alpha="0.3"
         android:layout_marginStart="40.0dip" />
 </FrameLayout>
