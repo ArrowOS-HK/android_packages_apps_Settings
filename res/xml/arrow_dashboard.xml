@@ -26,14 +26,14 @@
         android:selectable="false" />
 
     <SwitchPreference
-        android:icon="@drawable/settings_airplane_ic"
+        android:icon="@drawable/arrow_ic_airplane"
         android:title="@string/airplane_mode"
         android:key="airplane_mode"
         android:order="-190"
         settings:controller="com.android.settings.network.AirplaneModePreferenceController" />
 
     <com.android.settings.widget.HomepagePreference
-        android:icon="@drawable/ic_wifi_signal_4"
+        android:icon="@drawable/arrow_ic_wifi"
         android:key="internet_settings"
         android:order="-189"
         android:title="@string/wifi_settings"
@@ -42,7 +42,7 @@
         settings:highlightableMenuKey="@string/menu_key_network" />
 
     <com.android.settings.widget.HomepagePreference
-        android:icon="@drawable/ic_settings_bluetooth"
+        android:icon="@drawable/arrow_ic_bluetooth"
         android:key="top_level_bluetooth"
         android:order="-188"
         android:title="@string/bluetooth_settings_title"
@@ -50,7 +50,7 @@
         settings:highlightableMenuKey="@string/menu_key_connected_devices" />
 
     <com.android.settings.widget.HomepagePreference
-        android:icon="@drawable/ic_network_cell"
+        android:icon="@drawable/arrow_ic_mobile_network"
         android:key="top_level_mobile_network"
         android:order="-187"
         android:title="@string/network_settings_title"
@@ -58,7 +58,7 @@
 
     <com.android.settings.widget.HomepagePreference
         android:fragment="com.android.settings.communal.CommunalDashboardFragment"
-        android:icon="@drawable/ia_settings_communal"
+        android:icon="@drawable/arrow_ic_communal"
         android:key="top_level_communal"
         android:order="-186"
         android:title="@string/communal_settings_title"
@@ -67,7 +67,7 @@
         settings:controller="com.android.settings.communal.CommunalPreferenceController" />
 
     <com.android.settings.widget.HomepagePreference
-        android:icon="@drawable/ic_devices_other"
+        android:icon="@drawable/arrow_ic_connection_sharing"
         android:key="connection_sharing"
         android:order="-185"
         android:title="@string/arrow_dashboard_connection_sharing"
@@ -77,13 +77,13 @@
         android:key="top_level_sharpener"
         android:title="@string/sharpener_title"
         android:summary="@string/sharpener_summary"
-        android:icon="@drawable/ic_settings_arrow"
+        android:icon="@drawable/arrow_ic_sharpener"
         android:order="-184"
         android:fragment="com.arrow.support.Sharpener" />
 
     <com.android.settings.widget.HomepagePreference
         android:fragment="com.android.settings.DisplaySettings"
-        android:icon="@drawable/ic_settings_display_white"
+        android:icon="@drawable/arrow_ic_display"
         android:key="top_level_display"
         android:order="-180"
         android:title="@string/arrow_dashboard_display"
@@ -92,7 +92,7 @@
         settings:controller="com.android.settings.display.TopLevelDisplayPreferenceController" />
 
     <com.android.settings.widget.RestrictedHomepagePreference
-        android:icon="@drawable/ic_settings_wallpaper_white"
+        android:icon="@drawable/arrow_ic_home_style"
         android:key="top_level_wallpaper"
         android:order="-179"
         android:title="@string/wallpaper_settings_title"
@@ -102,7 +102,7 @@
 
     <com.android.settings.widget.HomepagePreference
         android:fragment="com.android.settings.fuelgauge.batteryusage.PowerUsageSummary"
-        android:icon="@drawable/ic_settings_battery_white"
+        android:icon="@drawable/arrow_ic_battery"
         android:key="top_level_battery"
         android:order="-178"
         android:title="@string/arrow_dashboard_battery"
@@ -112,7 +112,7 @@
 
     <com.android.settings.widget.HomepagePreference
         android:fragment="com.android.settings.notification.SoundSettings"
-        android:icon="@drawable/ic_volume_up_24dp"
+        android:icon="@drawable/arrow_ic_sound"
         android:key="top_level_sound"
         android:order="-177"
         android:title="@string/arrow_dashboard_sound"
@@ -121,7 +121,7 @@
 
     <com.android.settings.widget.HomepagePreference
         android:fragment="com.android.settings.applications.AppDashboardFragment"
-        android:icon="@drawable/ic_apps"
+        android:icon="@drawable/arrow_ic_apps"
         android:key="top_level_apps"
         android:order="-170"
         android:title="@string/arrow_dashboard_apps"
@@ -130,7 +130,7 @@
 
     <com.android.settings.widget.HomepagePreference
         android:fragment="com.android.settings.notification.ConfigureNotificationSettings"
-        android:icon="@drawable/ic_notifications"
+        android:icon="@drawable/arrow_ic_notifications"
         android:key="top_level_notifications"
         android:order="-169"
         android:title="@string/arrow_dashboard_notif"
@@ -139,7 +139,7 @@
 
     <com.android.settings.widget.HomepagePreference
         android:fragment="com.android.settings.accounts.AccountDashboardFragment"
-        android:icon="@drawable/ic_settings_accounts"
+        android:icon="@drawable/arrow_ic_accounts"
         android:key="top_level_accounts"
         android:order="-167"
         android:title="@string/arrow_dashboard_account"
@@ -149,7 +149,7 @@
 
     <com.android.settings.widget.HomepagePreference
         android:fragment="com.android.settings.deviceinfo.StorageDashboardFragment"
-        android:icon="@drawable/ic_storage_white"
+        android:icon="@drawable/arrow_ic_storage"
         android:key="top_level_storage"
         android:order="-166"
         android:title="@string/arrow_dashboard_storage"
@@ -159,7 +159,7 @@
 
     <com.android.settings.widget.HomepagePreference
         android:fragment="com.android.settings.privacy.PrivacyDashboardFragment"
-        android:icon="@drawable/ic_settings_privacy"
+        android:icon="@drawable/arrow_ic_privacy"
         android:key="top_level_privacy"
         android:order="-160"
         android:title="@string/arrow_dashboard_privacy"
@@ -169,7 +169,7 @@
 
     <com.android.settings.widget.HomepagePreference
         android:fragment="com.android.settings.location.LocationSettings"
-        android:icon="@drawable/ic_settings_location"
+        android:icon="@drawable/arrow_ic_location"
         android:key="top_level_location"
         android:order="-159"
         android:title="@string/arrow_dashboard_location"
@@ -178,7 +178,7 @@
         settings:controller="com.android.settings.location.TopLevelLocationPreferenceController" />
 
     <com.android.settings.widget.HomepagePreference
-        android:icon="@drawable/ic_settings_safety_center"
+        android:icon="@drawable/arrow_ic_safety_center"
         android:key="top_level_safety_center"
         android:order="-158"
         android:title="@string/safety_center_title"
@@ -190,7 +190,7 @@
         android:key="top_level_emergency"
         android:title="@string/emergency_settings_preference_title"
         android:summary="@string/emergency_dashboard_summary"
-        android:icon="@drawable/ic_settings_emergency"
+        android:icon="@drawable/arrow_ic_emergency"
         android:order="-157"
         android:fragment="com.android.settings.emergency.EmergencyDashboardFragment"
         settings:isPreferenceVisible="@bool/config_show_emergency_settings"
@@ -198,7 +198,7 @@
 
     <com.android.settings.widget.HomepagePreference
         android:fragment="com.android.settings.security.SecuritySettings"
-        android:icon="@drawable/ic_settings_security_white"
+        android:icon="@drawable/arrow_ic_security"
         android:key="top_level_security"
         android:order="-156"
         android:title="@string/arrow_dashboard_security"
@@ -208,7 +208,7 @@
 
     <com.android.settings.widget.HomepagePreference
         android:fragment="com.android.settings.accessibility.AccessibilitySettings"
-        android:icon="@drawable/ic_settings_accessibility"
+        android:icon="@drawable/arrow_ic_accessibility"
         android:key="top_level_accessibility"
         android:order="-150"
         android:title="@string/arrow_dashboard_accessibility"
@@ -217,7 +217,7 @@
         settings:controller="com.android.settings.accessibility.TopLevelAccessibilityPreferenceController" />
 
     <com.android.settings.widget.HomepagePreference
-        android:icon="@drawable/ic_help"
+        android:icon="@drawable/arrow_ic_support"
         android:key="top_level_support"
         android:order="-149"
         android:title="@string/arrow_dashboard_support"
@@ -227,7 +227,7 @@
 
     <com.android.settings.widget.HomepagePreference
         android:fragment="com.android.settings.system.SystemDashboardFragment"
-        android:icon="@drawable/ic_settings_system_dashboard_white"
+        android:icon="@drawable/arrow_ic_system"
         android:key="top_level_system"
         android:order="-148"
         android:title="@string/arrow_dashboard_system"
@@ -236,7 +236,7 @@
 
     <com.android.settings.widget.HomepagePreference
         android:fragment="com.android.settings.deviceinfo.aboutphone.MyDeviceInfoFragment"
-        android:icon="@drawable/ic_settings_about_device"
+        android:icon="@drawable/arrow_ic_about_device"
         android:key="top_level_about_device"
         android:order="-147"
         android:title="@string/about_settings"
