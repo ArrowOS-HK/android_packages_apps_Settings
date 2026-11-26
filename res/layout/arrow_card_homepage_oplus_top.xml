@@ -14,7 +14,7 @@
     <include
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        layout="@layout/arrow_homepage_oplus_card" />
+        layout="@layout/arrow_homepage_oplus_card_nosum" />
     <View
         android:layout_gravity="bottom"
         android:background="?android:textColorSecondary"

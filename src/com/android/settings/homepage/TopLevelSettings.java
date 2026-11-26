@@ -213,6 +213,10 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
             return;
         }
 
+        // The last card can be a tile injected by another package (for example the Google
+        // settings tile), so it is resolved dynamically instead of by key.
+        final Preference lastPreference = getLastVisiblePreference(screen);
+
         for (int i = 0; i < screen.getPreferenceCount(); i++) {
             final Preference pref = screen.getPreference(i);
             final String key = pref.getKey();
@@ -226,10 +230,12 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
                 pref.setLayoutResource(R.layout.arrow_dashboard_pref_wellbeing);
             } else if (isCardTop(key)) {
                 pref.setLayoutResource(R.layout.arrow_card_homepage_oplus_top);
-            } else if (isCardBottom(key)) {
+            } else if (isCardBottom(key) || pref == lastPreference) {
                 pref.setLayoutResource(R.layout.arrow_card_homepage_oplus_bottom);
-            } else {
+            } else if (isCardWithSummary(key)) {
                 pref.setLayoutResource(R.layout.arrow_card_homepage_oplus_middle_summary);
+            } else {
+                pref.setLayoutResource(R.layout.arrow_card_homepage_oplus_middle);
             }
         }
     }
@@ -247,14 +253,35 @@ public class TopLevelSettings extends DashboardFragment implements SplitLayoutLi
         }
     }
 
-    /** Last preference of a grouped card. */
+    /** Last preference of a grouped card. The final card is resolved dynamically. */
     private static boolean isCardBottom(String key) {
         switch (key) {
             case "top_level_sharpener":
             case "top_level_sound":
             case "top_level_storage":
             case "top_level_security":
-            case "top_level_about_device":
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /** Returns the last preference that is currently visible, or null if there is none. */
+    private static Preference getLastVisiblePreference(PreferenceScreen screen) {
+        for (int i = screen.getPreferenceCount() - 1; i >= 0; i--) {
+            final Preference pref = screen.getPreference(i);
+            if (pref.isVisible() && pref.getKey() != null) {
+                return pref;
+            }
+        }
+        return null;
+    }
+
+    /** Homepage cards that show a summary line; every other card is title-only. */
+    private static boolean isCardWithSummary(String key) {
+        switch (key) {
+            case "internet_settings":
+            case "tether_settings":
                 return true;
             default:
                 return false;
