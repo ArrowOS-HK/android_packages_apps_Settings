@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2026 HK Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/about_hero_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:clipToPadding="false">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="248.0dip"
+        android:layout_marginHorizontal="16.0dip"
+        android:layout_marginTop="4.0dip"
+        android:layout_marginBottom="12.0dip"
+        app:cardCornerRadius="18.0dip"
+        app:cardElevation="0.0dip"
+        app:strokeWidth="0.0dip">
+
+        <com.android.settings.deviceinfo.aboutphone.WallpaperBlurView
+            android:id="@+id/about_header_wallpaper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#28000000" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="20.0dip">
+
+            <TextView
+                android:id="@+id/about_header_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.92"
+                android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
+                android:textColor="@android:color/white"
+                android:textSize="16.0sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="1.0" />
+
+            <TextView
+                android:id="@+id/about_header_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
+                android:gravity="center"
+                android:text="@string/config_about_rom_name"
+                android:textColor="@android:color/white"
+                android:textSize="36.0sp" />
+
+            <TextView
+                android:id="@+id/about_header_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4.0dip"
+                android:alpha="0.85"
+                android:fontFamily="@*android:string/config_headlineFontFamily"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="14.0sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="1.0" />
+
+            <TextView
+                android:id="@+id/about_header_pill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/hk_about_button_bg"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@*android:string/config_headlineFontFamily"
+                android:gravity="center"
+                android:minWidth="190.0dip"
+                android:minHeight="38.0dip"
+                android:paddingHorizontal="22.0dip"
+                android:textColor="@android:color/white"
+                android:textSize="14.0sp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>

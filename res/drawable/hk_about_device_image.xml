@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2026 HK Project
+  Overlayable default device illustration. Maintainers can replace this drawable in
+  device/.../overlay/packages/apps/Settings/res/drawable/hk_about_device_image.png (or .webp).
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="140dp"
+    android:height="240dp"
+    android:viewportWidth="140"
+    android:viewportHeight="240">
+    <!-- Outer frame -->
+    <path
+        android:fillColor="#ff22262e"
+        android:pathData="M24,6 H116 A16,16 0 0 1 132,22 V218 A16,16 0 0 1 116,234 H24 A16,16 0 0 1 8,218 V22 A16,16 0 0 1 24,6 Z" />
+    <!-- Inner bezel -->
+    <path
+        android:fillColor="#ff121418"
+        android:pathData="M26,10 H114 A13,13 0 0 1 127,23 V217 A13,13 0 0 1 114,230 H26 A13,13 0 0 1 13,217 V23 A13,13 0 0 1 26,10 Z" />
+    <!-- Screen gradient / subtle accent -->
+    <path
+        android:fillColor="?android:attr/colorAccent"
+        android:fillAlpha="0.35"
+        android:pathData="M27,15 H113 A9,9 0 0 1 122,24 V216 A9,9 0 0 1 113,225 H27 A9,9 0 0 1 18,216 V24 A9,9 0 0 1 27,15 Z" />
+    <path
+        android:fillColor="#ffffffff"
+        android:fillAlpha="0.10"
+        android:pathData="M18,24 A9,9 0 0 1 27,15 H113 A9,9 0 0 1 122,24 V115 L18,165 Z" />
+    <!-- Punch-hole camera -->
+    <path
+        android:fillColor="#ff0b0c0f"
+        android:pathData="M70,22 m-3.5,0 a3.5,3.5 0 1,0 7,0 a3.5,3.5 0 1,0 -7,0" />
+</vector>

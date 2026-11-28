@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2026 HK Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16.0dip"
+        android:layout_marginTop="12.0dip"
+        app:cardBackgroundColor="@color/hk_about_card_bg"
+        app:cardCornerRadius="18.0dip"
+        app:cardElevation="0.0dip"
+        app:cardPreventCornerOverlap="false"
+        app:strokeWidth="0.0dip">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="18.0dip"
+            android:paddingVertical="4.0dip">
+
+            <!-- Processor -->
+            <RelativeLayout
+                android:id="@+id/processor_click_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingVertical="15.0dip">
+
+                <TextView
+                    android:id="@+id/title_processor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@*android:string/config_headlineFontFamily"
+                    android:text="@string/hk_about_processor_title"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="15.0sp" />
+
+                <ImageView
+                    android:id="@+id/arrow_proc"
+                    android:layout_width="16.0dip"
+                    android:layout_height="16.0dip"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/hk_about_chevron_right"
+                    app:tint="?android:attr/textColorPrimary" />
+
+                <TextView
+                    android:id="@+id/hk_proc_info"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="24.0dip"
+                    android:layout_marginEnd="6.0dip"
+                    android:layout_toStartOf="@id/arrow_proc"
+                    android:layout_toEndOf="@id/title_processor"
+                    android:gravity="end"
+                    android:maxLines="2"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textSize="15.0sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:background="#18808080" />
+
+            <!-- Battery -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15.0dip">
+
+                <TextView
+                    android:id="@+id/title_battery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@*android:string/config_headlineFontFamily"
+                    android:text="@string/hk_about_battery_title"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="15.0sp" />
+
+                <TextView
+                    android:id="@+id/hk_battery_info"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="24.0dip"
+                    android:layout_toEndOf="@id/title_battery"
+                    android:gravity="end"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textSize="15.0sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:background="#18808080" />
+
+            <!-- RAM + ZRAM -->
+            <RelativeLayout
+                android:id="@+id/ram_click_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingVertical="15.0dip">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@*android:string/config_headlineFontFamily"
+                    android:text="@string/hk_about_ram_title"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="15.0sp" />
+
+                <ImageView
+                    android:id="@+id/arrow_ram"
+                    android:layout_width="16.0dip"
+                    android:layout_height="16.0dip"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/hk_about_chevron_right"
+                    app:tint="?android:attr/textColorPrimary" />
+
+                <TextView
+                    android:id="@+id/hk_zram_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="6.0dip"
+                    android:layout_toStartOf="@id/arrow_ram"
+                    android:background="@drawable/hk_about_expand_ram_bg"
+                    android:paddingHorizontal="6.0dip"
+                    android:paddingVertical="1.0dip"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textSize="12.0sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/hk_ram_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="6.0dip"
+                    android:layout_toStartOf="@id/hk_zram_badge"
+                    android:gravity="end"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textSize="15.0sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:background="#18808080" />
+
+            <!-- Camera -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15.0dip">
+
+                <TextView
+                    android:id="@+id/title_camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@*android:string/config_headlineFontFamily"
+                    android:text="@string/hk_about_camera_title"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="15.0sp" />
+
+                <TextView
+                    android:id="@+id/hk_camera_info"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16.0dip"
+                    android:layout_toEndOf="@id/title_camera"
+                    android:gravity="end"
+                    android:maxLines="2"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textSize="15.0sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:background="#18808080" />
+
+            <!-- Display -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15.0dip">
+
+                <TextView
+                    android:id="@+id/title_display"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@*android:string/config_headlineFontFamily"
+                    android:text="@string/hk_about_display_title"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="15.0sp" />
+
+                <TextView
+                    android:id="@+id/hk_display_info"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="24.0dip"
+                    android:layout_toEndOf="@id/title_display"
+                    android:gravity="end"
+                    android:maxLines="2"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textSize="15.0sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:background="#18808080" />
+
+            <!-- System Core -->
+            <RelativeLayout
+                android:id="@+id/system_core_click_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingVertical="15.0dip">
+
+                <TextView
+                    android:id="@+id/title_sys"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@*android:string/config_headlineFontFamily"
+                    android:text="@string/hk_about_system_core_title"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="15.0sp" />
+
+                <ImageView
+                    android:id="@+id/arrow_sys"
+                    android:layout_width="16.0dip"
+                    android:layout_height="16.0dip"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/hk_about_chevron_right"
+                    app:tint="?android:attr/textColorPrimary" />
+
+                <TextView
+                    android:id="@+id/hk_system_core_info"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="24.0dip"
+                    android:layout_marginEnd="6.0dip"
+                    android:layout_toStartOf="@id/arrow_sys"
+                    android:layout_toEndOf="@id/title_sys"
+                    android:ellipsize="end"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textSize="15.0sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dip"
+                android:background="#18808080" />
+
+            <!-- Model (tappable to open HardwareInfoFragment, flush right text matching screenshot) -->
+            <RelativeLayout
+                android:id="@+id/model_info_click_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingVertical="15.0dip">
+
+                <TextView
+                    android:id="@+id/title_model"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@*android:string/config_headlineFontFamily"
+                    android:text="@string/hk_about_model_title"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="15.0sp" />
+
+                <TextView
+                    android:id="@+id/hk_model_info"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="24.0dip"
+                    android:layout_toEndOf="@id/title_model"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:textSize="15.0sp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2026 HK Project -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="28.0dip"
+    android:height="28.0dip"
+    android:viewportWidth="24.0"
+    android:viewportHeight="24.0">
+    <!-- Outlined smartphone frame matching the ported Device name tile icon -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#ffffffff"
+        android:strokeWidth="1.8"
+        android:strokeLineJoin="round"
+        android:pathData="M8.2,2.5H15.8A2.2,2.2 0,0 1,18 4.7V19.3A2.2,2.2 0,0 1,15.8 21.5H8.2A2.2,2.2 0,0 1,6 19.3V4.7A2.2,2.2 0,0 1,8.2 2.5Z" />
+    <!-- Bottom indicator bar -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#ffffffff"
+        android:strokeWidth="1.6"
+        android:strokeLineCap="round"
+        android:pathData="M10.5,18.8H13.5" />
+</vector>
