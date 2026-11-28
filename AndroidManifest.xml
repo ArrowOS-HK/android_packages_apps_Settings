@@ -3537,6 +3537,12 @@
         </provider>
 
         <provider
+            android:name="com.arrow.support.provider.InvCustomImageProvider"
+            android:authorities="com.android.settings.qsimage"
+            android:readPermission="android.permission.STATUS_BAR_SERVICE"
+            android:exported="true" />
+
+        <provider
             android:name=".deviceinfo.legal.ModuleLicenseProvider"
             android:authorities="com.android.settings.module_licenses"
             android:grantUriPermissions="true"
